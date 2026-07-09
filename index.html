@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timber Hub - Dashboard</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .dashboard-container {
+    width: 100%;
+    max-width: 900px;
+    position: relative;
+  }
+
+  .panel {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .central-card {
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    margin: 0 auto;
+    max-width: 500px;
+  }
+
+  .central-card h1 {
+    font-size: 36px;
+    color: #1e3c72;
+    margin: 0 0 10px 0;
+  }
+
+  .central-card p {
+    font-size: 16px;
+    color: #555;
+    margin: 0 0 30px 0;
+  }
+
+  .central-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .action-button {
+    padding: 15px 40px;
+    background: #f39c12;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .action-button:hover {
+    background: #e67e22;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(243, 156, 18, 0.3);
+  }
+
+  .bottom-center {
+    padding: 30px;
+    margin-top: 20px;
+  }
+
+  .bottom-center h2 {
+    font-size: 22px;
+    color: #1e3c72;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+  }
+
+  .quotes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .quote-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 5px solid #f1c40f;
+    transition: all 0.3s ease;
+  }
+
+  .quote-card.status-paid {
+    border-left-color: #27ae60;
+  }
+
+  .quote-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .quote-customer {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .quote-details {
+    font-size: 14px;
+    color: #777;
+  }
+
+  .quote-details span {
+    margin-right: 15px;
+  }
+
+  .quote-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .list-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #bdc3c7;
+    color: white;
+    transition: background 0.2s;
+  }
+
+  .list-btn.btn-view:hover {
+    background: #3498db;
+  }
+
+  .list-btn.btn-delete:hover {
+    background: #e74c3c;
+  }
+
+  .list-btn.btn-paid:hover {
+    background: #27ae60;
+  }
+
+  .empty-list {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+  }
+
+  .top-right {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    width: 200px;
+    height: 150px;
+    background: #e9ecf1;
+    z-index: 1;
+    opacity: 0.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <div class="panel top-right"></div>
+
+  <div class="panel central-card">
+    <h1>Timber Hub</h1>
+    <p>Quotation Management System</p>
+    <div class="central-actions">
+      <a href="quotation-tool.html" class="action-button">Create New</a>
+      <button id="showRecentBtn" class="action-button">Recent</button>
+    </div>
+  </div>
+
+  <div class="panel bottom-center" id="recentQuotesPanel" style="display: none;">
+    <h2>Recent Quotations</h2>
+    <div id="quotesList" class="quotes-list">
+    </div>
+    <div style="text-align: center; margin-top: 25px;">
+      <button id="backToTopBtn" class="list-btn">Back</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const showRecentBtn = document.getElementById('showRecentBtn');
+    const recentQuotesPanel = document.getElementById('recentQuotesPanel');
+    const backToTopBtn = document.getElementById('backToTopBtn');
+
+    loadRecentQuotes();
+
+    showRecentBtn.addEventListener('click', () => {
+      recentQuotesPanel.style.display = 'block';
+      recentQuotesPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      recentQuotesPanel.style.display = 'none';
+      document.querySelector('.central-card').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    if (window.location.hash === '#recent') {
+      showRecentBtn.click();
+    }
+  });
+
+  function loadRecentQuotes() {
+    const quotesListContainer = document.getElementById('quotesList');
+    let quotes = [];
+    try {
+      quotes = JSON.parse(localStorage.getItem('timberHubQuotes')) || [];
+    } catch (e) {
+      console.error('Error reading from localStorage', e);
+      quotes = [];
+    }
+
+    quotesListContainer.innerHTML = '';
+
+    if (quotes.length === 0) {
+      quotesListContainer.innerHTML = '<p class="empty-list">No recent quotations found.</p>';
+      return;
+    }
+
+    quotes.forEach(quote => {
+      const card = document.createElement('div');
+      card.className = `quote-card status-${quote.status.toLowerCase()}`;
+      card.dataset.quoteId = quote.quoteId;
+
+      const amountFormatted = 'Rs. ' + new Intl.NumberFormat('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(quote.amount);
+
+      card.innerHTML = `
+        <div class="quote-info">
+          <span class="quote-customer">${quote.clientName}</span>
+          <div class="quote-details">
+            <span>#${quote.quoteNo}</span>
+            <span>${quote.date ? new Date(quote.date).toLocaleDateString('en-GB').replace(/\//g, '-') : ''}</span>
+            <span>${amountFormatted}</span>
+          </div>
+        </div>
+        <div class="quote-actions">
+          <button class="list-btn btn-view" data-quote-id="${quote.quoteId}">View</button>
+          <button class="list-btn btn-paid" data-quote-id="${quote.quoteId}">Paid</button>
+          <button class="list-btn btn-delete" data-quote-id="${quote.quoteId}">Delete</button>
+        </div>
+      `;
+
+      quotesListContainer.appendChild(card);
+    });
+
+    addEventListenersToButtons();
+  }
+
+  function addEventListenersToButtons() {
+    document.querySelectorAll('.btn-view').forEach(button => {
+      button.addEventListener('click', handleViewClick);
+    });
+    document.querySelectorAll('.btn-paid').forEach(button => {
+      button.addEventListener('click', handlePaidClick);
+    });
+    document.querySelectorAll('.btn-delete').forEach(button => {
+      button.addEventListener('click', handleDeleteClick);
+    });
+  }
+
+  function handleViewClick(event) {
+    const quoteId = event.target.dataset.quoteId;
+    const quotes = JSON.parse(localStorage.getItem('timberHubQuotes')) || [];
+    const quoteToLoad = quotes.find(q => q.quoteId === quoteId);
+
+    if (quoteToLoad && quoteToLoad.fullQuote) {
+        sessionStorage.setItem('quoteToLoad', JSON.stringify(quoteToLoad.fullQuote));
+        window.location.href = 'quotation-tool.html';
+    } else {
+        alert('Could not find the data for the selected quotation. This may be an older quote saved without the full data.');
+    }
+  }
+
+  function handlePaidClick(event) {
+    const quoteId = event.target.dataset.quoteId;
+    let quotes = JSON.parse(localStorage.getItem('timberHubQuotes')) || [];
+    
+    const quoteIndex = quotes.findIndex(q => q.quoteId === quoteId);
+    if (quoteIndex > -1) {
+      quotes[quoteIndex].status = 'Paid';
+      localStorage.setItem('timberHubQuotes', JSON.stringify(quotes));
+
+      const card = document.querySelector(`.quote-card[data-quote-id="${quoteId}"]`);
+      if (card) {
+        card.classList.remove('status-pending');
+        card.classList.add('status-paid');
+      }
+    }
+  }
+
+  function handleDeleteClick(event) {
+    const quoteId = event.target.dataset.quoteId;
+    let quotes = JSON.parse(localStorage.getItem('timberHubQuotes')) || [];
+    
+    const updatedQuotes = quotes.filter(q => q.quoteId !== quoteId);
+    localStorage.setItem('timberHubQuotes', JSON.stringify(updatedQuotes));
+
+    const card = document.querySelector(`.quote-card[data-quote-id="${quoteId}"]`);
+    if (card) {
+      card.remove();
+    }
+
+    if (updatedQuotes.length === 0) {
+        document.getElementById('quotesList').innerHTML = '<p class="empty-list">No recent quotations found.</p>';
+    }
+  }
+</script>
+
+</body>
+</html>
