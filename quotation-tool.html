@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timber Hub - Quotation Pro</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: #f5f1ed;
+  padding: 20px;
+  color: #333;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e3c72;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.back-link:hover {
+  color: #2a5298;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  align-items: start;
+}
+
+/* LEFT PANEL - INPUT FORM */
+.input-panel {
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.form-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #d4a574;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-group.full {
+  grid-template-columns: 1fr;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #555;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.form-field input {
+  padding: 10px 12px;
+  border: 1px solid #d4c4b8;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #fdfaf7;
+}
+
+.form-field input:focus {
+  outline: none;
+  border-color: #8b6f47;
+  background: white;
+  box-shadow: 0 0 0 2px rgba(139, 111, 71, 0.1);
+}
+
+/* Item Input Section */
+.item-input-section {
+  background: #f9f6f3;
+  padding: 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid #e8ddd3;
+}
+
+.item-input-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.7fr 0.7fr 0.7fr auto;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.item-input-grid .form-field {
+  margin-bottom: 0;
+}
+
+.btn-add {
+  padding: 10px 16px;
+  background: #8b6f47;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.btn-add:hover {
+  background: #6d5636;
+}
+
+/* Items Table */
+.items-table-section {
+  margin-bottom: 20px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  background: white;
+}
+
+.items-table th {
+  background: #8b6f47;
+  color: white;
+  padding: 10px 8px;
+  text-align: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 1px solid #8b6f47;
+}
+
+.items-table td {
+  padding: 10px 8px;
+  border: 1px solid #d4c4b8;
+  text-align: center;
+  background: #fdfaf7;
+}
+
+.items-table td input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #d4c4b8;
+  border-radius: 4px;
+  font-size: 12px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.items-table tr:hover {
+  background: #f5f1ed;
+}
+
+.action-btns {
+  display: flex;
+  gap: 5px;
+}
+
+.btn-edit, .btn-delete {
+  padding: 4px 8px;
+  font-size: 11px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.btn-edit {
+  background: #3498db;
+  color: white;
+}
+
+.btn-edit:hover {
+  background: #2980b9;
+}
+
+.btn-delete {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #c0392b;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 30px;
+  color: #999;
+  font-size: 13px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-submit, .btn-reset {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 13px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.btn-submit {
+  background: #27ae60;
+  color: white;
+}
+
+.btn-submit:hover {
+  background: #229954;
+}
+
+.btn-reset {
+  background: #95a5a6;
+  color: white;
+}
+.btn-print,
+.btn-jpg {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 13px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  color: white;
+}
+
+.btn-print {
+  background: #f39c12;
+}
+
+.btn-print:hover {
+  background: #d35400;
+}
+
+.btn-jpg {
+  background: #2980b9;
+}
+
+.btn-jpg:hover {
+  background: #21618c;
+}
+.btn-reset:hover {
+  background: #7f8c8d;
+}
+
+/* RIGHT PANEL - PREVIEW */
+.preview-panel {
+  background: white;
+  border: 2px solid #8b6f47;
+  border-radius: 4px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 210mm;
+  max-width: 100%;
+  min-height: 297mm;
+}
+
+.preview-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #8b6f47;
+}
+
+.preview-header h1 {
+  font-size: 18px;
+  font-weight: 900;
+  color: #333;
+  margin-bottom: 5px;
+  letter-spacing: 1px;
+}
+
+.preview-header p {
+  font-size: 10px;
+  color: #666;
+  margin: 2px 0;
+}
+
+.preview-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+  font-size: 11px;
+}
+
+.info-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 3px;
+}
+
+.info-value {
+  font-size: 13px;
+  color: #333;
+  padding: 6px;
+  background: #f9f6f3;
+  border: 1px solid #e8ddd3;
+  border-radius: 3px;
+}
+
+.preview-title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 12px;
+  margin: 20px 0 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  margin-bottom: 15px;
+}
+
+.preview-table th {
+  background: #d4a574;
+  color: #333;
+  padding: 8px 6px;
+  text-align: center;
+  font-weight: 700;
+  border: 1px solid #8b6f47;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+.preview-table td {
+  padding: 8px 6px;
+  border: 1px solid #d4c4b8;
+  text-align: center;
+  background: #fdfaf7;
+}
+
+.bottom-note-row td {
+  background: #fff0b3;
+  color: #333;
+  font-weight: 700;
+}
+
+.preview-table tr:hover {
+  background: #f5f1ed;
+}
+
+.total-row td {
+  background: #e8ddd3;
+  font-weight: 700;
+  border-color: #8b6f47;
+}
+
+.grand-total-row td {
+  background: #8b6f47;
+  color: white;
+  font-weight: 900;
+  border-color: #6d5636;
+}
+
+.success-screen {
+  display: none;
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.success-icon {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.success-screen h2 {
+  color: #27ae60;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.success-screen p {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .item-input-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@page {
+  size: A4 portrait;
+  margin: 10mm;
+}
+
+@media print {
+  body {
+    margin: 0;
+    background: white;
+  }
+
+  .input-panel {
+    display: none;
+  }
+  
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .preview-panel {
+    width: 100%;
+    min-height: 297mm;
+    box-shadow: none;
+    border: none;
+  }
+
+  .action-buttons {
+    display: none;
+  }
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <a href="index.html" class="back-link">&larr; Back to Dashboard</a>
+  <div class="layout">
+    <!-- LEFT PANEL: INPUT FORM -->
+    <div class="input-panel" id="inputPanel">
+      <div class="form-title">Quotation Details</div>
+      
+      <div class="form-group">
+        <div class="form-field">
+          <label>Date</label>
+          <input type="date" id="qDate">
+        </div>
+        <div class="form-field">
+          <label>Quotation #</label>
+          <input type="text" id="qNumber" placeholder="e.g., THM-001-2026">
+        </div>
+      </div>
+
+      <div class="form-group full">
+        <div class="form-field">
+          <label>Customer Name</label>
+          <input type="text" id="qCustomer" placeholder="Customer name">
+        </div>
+      </div>
+
+      <div class="form-title" style="margin-top: 25px;">Add Timber Items</div>
+
+      <div class="item-input-section">
+        <div class="item-input-grid">
+          <div class="form-field">
+            <label>Size</label>
+            <input type="text" id="iSize" placeholder="e.g., 2x4">
+          </div>
+          <div class="form-field">
+            <label>Length (Ft)</label>
+            <input type="number" id="iLength" placeholder="0" min="0" step="0.1">
+          </div>
+          <div class="form-field">
+            <label>PCS</label>
+            <input type="number" id="iPcs" placeholder="0" min="0">
+          </div>
+          <div class="form-field">
+            <label>Price/Ft</label>
+            <input type="number" id="iPrice" placeholder="0.00" min="0" step="0.01">
+          </div>
+          <button class="btn-add" onclick="addItem()">+ Add</button>
+        </div>
+      </div>
+
+      <div class="items-table-section">
+        <table class="items-table" id="itemsTable">
+          <thead>
+            <tr>
+              <th style="width: 30px;">No.</th>
+              <th>Size</th>
+              <th>Length</th>
+              <th>PCS</th>
+              <th>Total</th>
+              <th>Price</th>
+              <th>Total Price</th>
+              <th style="width: 70px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="itemsBody">
+            <tr>
+              <td colspan="7" class="empty-message">No items added yet</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="form-title" style="margin-top: 20px;">Bottom Layers</div>
+      <div class="item-input-section">
+        <div class="item-input-grid">
+          <div class="form-field">
+            <label>Description</label>
+            <input type="text" id="bottomNote" placeholder="For Four side Planning except 2x2 size">
+          </div>
+          <div class="form-field">
+            <label>Qty</label>
+            <input type="number" id="bottomQty" placeholder="1" min="0" step="1">
+          </div>
+          <div class="form-field">
+            <label>Unit Price</label>
+            <input type="number" id="bottomPrice" placeholder="0.00" min="0" step="0.01">
+          </div>
+          <button class="btn-add" onclick="addBottomLayer()">+ Add</button>
+        </div>
+      </div>
+
+      <div class="items-table-section">
+        <table class="items-table" id="bottomLayersTable">
+          <thead>
+            <tr>
+              <th style="width: 30px;">No.</th>
+              <th>Description</th>
+              <th>Qty</th>
+              <th>Unit Price</th>
+              <th>Line Total</th>
+              <th style="width: 70px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="bottomLayersBody">
+            <tr>
+              <td colspan="6" class="empty-message">No bottom layers added yet</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-submit" onclick="submitQuote()">Save & Finish</button>
+        <button class="btn-reset" onclick="clearForm()">Clear</button>
+        <button class="btn-print" onclick="printQuote()">Print</button>
+        <button class="btn-jpg" onclick="saveAsJpg()">Save as JPG</button>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: PREVIEW -->
+    <div class="preview-panel">
+      <div class="preview-header">
+        <h1>TIMBER HUB MORATUWA</h1>
+        <p>No: 14, Frazer Avenue, Moratuwella, Moratuwa</p>
+        <p>Phone: 070 32 66 001</p>
+      </div>
+
+      <div class="preview-info">
+        <div class="info-block">
+          <div class="info-label">Date</div>
+          <div class="info-value" id="previewDate">-</div>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Quote #</div>
+          <div class="info-value" id="previewQuote">-</div>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Customer</div>
+          <div class="info-value" id="previewCustomer">-</div>
+        </div>
+      </div>
+
+      <div class="preview-title">Quotation for Sawn Red Grandis Timber</div>
+
+      <table class="preview-table" id="previewTable">
+        <thead>
+          <tr>
+            <th style="width: 30px;">No.</th>
+            <th>Size</th>
+            <th>Length</th>
+            <th>PCS</th>
+            <th>Total Length</th>
+            <th>Price/Ft</th>
+            <th>Total Price</th>
+          </tr>
+        </thead>
+        <tbody id="previewBody">
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 30px; color: #999;">Add items to see preview</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="preview-table" id="bottomLayerTable" style="display: none; margin-top: 10px;">
+        <tbody>
+          <tr class="bottom-note-row">
+            <td colspan="3" id="bottomNotePreview" style="text-align: left; padding-left: 8px;">-</td>
+            <td id="bottomQtyPreview">0</td>
+            <td>x</td>
+            <td id="bottomPricePreview">0.00</td>
+            <td id="bottomLineTotalPreview">0.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="preview-table" id="totalTable" style="display: none;">
+        <tbody>
+          <tr class="total-row">
+            <td colspan="5" style="text-align: right; font-weight: 700;">TOTAL FOR TIMBER</td>
+            <td id="totalPrice">0.00</td>
+          </tr>
+          <tr class="grand-total-row">
+            <td colspan="5" style="text-align: right;">GRAND TOTAL</td>
+            <td id="grandTotal">0.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+<script>
+let quoteItems = [];
+let bottomLayers = [];
+
+function addBottomLayer() {
+  const note = document.getElementById('bottomNote').value.trim();
+  const qty = parseInt(document.getElementById('bottomQty').value, 10) || 0;
+  const price = parseFloat(document.getElementById('bottomPrice').value) || 0;
+
+  if (!note || qty <= 0 || price <= 0) {
+    alert('Please fill all bottom layer fields with valid values');
+    return;
+  }
+
+  bottomLayers.push({
+    id: Date.now(),
+    note,
+    qty,
+    price,
+    total: qty * price
+  });
+
+  renderItems();
+  clearBottomLayerInputs();
+}
+
+function clearBottomLayerInputs() {
+  document.getElementById('bottomNote').value = '';
+  document.getElementById('bottomQty').value = '';
+  document.getElementById('bottomPrice').value = '';
+  document.getElementById('bottomNote').focus();
+}
+
+function deleteBottomLayer(id) {
+  bottomLayers = bottomLayers.filter(layer => layer.id !== id);
+  renderItems();
+}
+
+function updateBottomLayerField(id, field, value) {
+  bottomLayers = bottomLayers.map(layer => {
+    if (layer.id !== id) return layer;
+    const updated = { ...layer };
+    if (field === 'note') {
+      updated.note = value;
+    } else if (field === 'qty') {
+      updated.qty = parseInt(value, 10) || 0;
+    } else if (field === 'price') {
+      updated.price = parseFloat(value) || 0;
+    } else if (field === 'total') {
+      updated.total = parseFloat(value) || 0;
+      return updated;
+    }
+    updated.total = updated.qty * updated.price;
+    return updated;
+  });
+  renderItems();
+}
+
+function addItem() {
+  const size = document.getElementById('iSize').value.trim();
+  const length = parseFloat(document.getElementById('iLength').value) || 0;
+  const pcs = parseFloat(document.getElementById('iPcs').value) || 0;
+  const price = parseFloat(document.getElementById('iPrice').value) || 0;
+
+  if (!size || length <= 0 || pcs <= 0 || price <= 0) {
+    alert('Please fill all fields with valid values');
+    return;
+  }
+
+  quoteItems.push({
+    id: Date.now(),
+    size,
+    length,
+    pcs,
+    price,
+    totalLength: length * pcs,
+    totalPrice: (length * pcs) * price
+  });
+
+  renderItems();
+  clearItemInputs();
+}
+
+function clearItemInputs() {
+  document.getElementById('iSize').value = '';
+  document.getElementById('iLength').value = '';
+  document.getElementById('iPcs').value = '';
+  document.getElementById('iPrice').value = '';
+  document.getElementById('iSize').focus();
+}
+
+function clearBottomLine() {
+  bottomLayers = [];
+  document.getElementById('bottomNote').value = '';
+  document.getElementById('bottomQty').value = '';
+  document.getElementById('bottomPrice').value = '';
+}
+
+function deleteItem(id) {
+  quoteItems = quoteItems.filter(item => item.id !== id);
+  renderItems();
+}
+
+function updateItemField(id, field, value) {
+  quoteItems = quoteItems.map(item => {
+    if (item.id !== id) return item;
+    const updated = { ...item };
+    if (field === 'size') {
+      updated.size = value;
+    } else if (field === 'length') {
+      updated.length = parseFloat(value) || 0;
+    } else if (field === 'pcs') {
+      updated.pcs = parseInt(value, 10) || 0;
+    } else if (field === 'price') {
+      updated.price = parseFloat(value) || 0;
+    } else if (field === 'totalLength') {
+      updated.totalLength = parseFloat(value) || 0;
+      return updated;
+    } else if (field === 'totalPrice') {
+      updated.totalPrice = parseFloat(value) || 0;
+      return updated;
+    }
+    updated.totalLength = updated.length * updated.pcs;
+    updated.totalPrice = updated.totalLength * updated.price;
+    return updated;
+  });
+  renderItems();
+}
+
+function renderItems() {
+  const itemsBody = document.getElementById('itemsBody');
+  const previewBody = document.getElementById('previewBody');
+  const totalTable = document.getElementById('totalTable');
+  const previewDate = document.getElementById('previewDate');
+  const bottomLayersBody = document.getElementById('bottomLayersBody');
+  const previewQuote = document.getElementById('previewQuote');
+  const previewCustomer = document.getElementById('previewCustomer');
+
+  if (quoteItems.length === 0) {
+    itemsBody.innerHTML = '<tr><td colspan="7" class="empty-message">No items added yet</td></tr>';
+    previewBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">Add items to see preview</td></tr>';
+    document.getElementById('bottomLayerTable').style.display = 'none';
+    // totalTable.style.display = 'none'; // Keep totals visible even with only bottom layers
+    return;
+  }
+
+  let itemsHTML = '';
+  let previewHTML = '';
+  let totalPrice = 0;
+
+  quoteItems.forEach((item, idx) => {
+    itemsHTML += `
+      <tr>
+        <td>${idx + 1}</td>
+        <td><input type="text" value="${item.size}" onblur="updateItemField(${item.id}, 'size', this.value)" /></td>
+        <td><input type="number" step="0.1" min="0" value="${item.length.toFixed(2)}" onblur="updateItemField(${item.id}, 'length', this.value)" /></td>
+        <td><input type="number" step="1" min="0" value="${item.pcs.toFixed(0)}" onblur="updateItemField(${item.id}, 'pcs', this.value)" /></td>
+        <td><input type="number" step="0.01" min="0" value="${item.totalLength.toFixed(2)}" onblur="updateItemField(${item.id}, 'totalLength', this.value)" /></td>
+        <td><input type="number" step="0.01" min="0" value="${item.price.toFixed(2)}" onblur="updateItemField(${item.id}, 'price', this.value)" /></td>
+        <td><input type="number" step="0.01" min="0" value="${item.totalPrice.toFixed(2)}" onblur="updateItemField(${item.id}, 'totalPrice', this.value)" /></td>
+        <td>
+          <div class="action-btns">
+            <button class="btn-delete" onclick="deleteItem(${item.id})">Delete</button>
+          </div>
+        </td>
+      </tr>
+    `;
+
+    previewHTML += `
+      <tr>
+        <td>${idx + 1}</td>
+        <td>${item.size}</td>
+        <td>${item.length.toFixed(2)}</td>
+        <td>${item.pcs.toFixed(0)}</td>
+        <td>${item.totalLength.toFixed(2)}</td>
+        <td>${item.price.toFixed(2)}</td>
+        <td>${item.totalPrice.toFixed(2)}</td>
+      </tr>
+    `;
+
+    totalPrice += item.totalPrice;
+  });
+
+  itemsBody.innerHTML = itemsHTML;
+  previewBody.innerHTML = previewHTML;
+
+  // Render Bottom Layers and Totals independently
+  renderBottomHalf();
+}
+
+function renderBottomHalf() {
+  const bottomLayersBody = document.getElementById('bottomLayersBody');
+  const totalTable = document.getElementById('totalTable');
+  const previewBottomLayerTable = document.getElementById('bottomLayerTable');
+
+  // Calculate totals first
+  const totalPrice = quoteItems.reduce((sum, item) => sum + item.totalPrice, 0);
+  const bottomLayersTotal = bottomLayers.reduce((sum, layer) => sum + layer.total, 0);
+  const combinedTotal = totalPrice + bottomLayersTotal;
+
+  document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
+  document.getElementById('grandTotal').textContent = combinedTotal.toFixed(2);
+  totalTable.style.display = (quoteItems.length > 0 || bottomLayers.length > 0) ? 'table' : 'none';
+
+  // Update preview info
+  document.getElementById('previewDate').textContent = document.getElementById('qDate').value || '-';
+  document.getElementById('previewQuote').textContent = document.getElementById('qNumber').value || '-';
+  document.getElementById('previewCustomer').textContent = document.getElementById('qCustomer').value || '-';
+
+  // Render Bottom Layers
+
+  if (bottomLayers.length > 0) {
+    let bottomLayersHTML = '';
+    let previewBottomLayersHTML = '';
+    bottomLayers.forEach((layer, idx) => {
+      bottomLayersHTML += `
+        <tr>
+          <td>${idx + 1}</td>
+          <td><input type="text" value="${layer.note}" onblur="updateBottomLayerField(${layer.id}, 'note', this.value)" /></td>
+          <td><input type="number" step="1" min="0" value="${layer.qty}" onblur="updateBottomLayerField(${layer.id}, 'qty', this.value)" /></td>
+          <td><input type="number" step="0.01" min="0" value="${layer.price.toFixed(2)}" onblur="updateBottomLayerField(${layer.id}, 'price', this.value)" /></td>
+          <td><input type="number" step="0.01" min="0" value="${layer.total.toFixed(2)}" onblur="updateBottomLayerField(${layer.id}, 'total', this.value)" /></td>
+          <td><div class="action-btns"><button class="btn-delete" onclick="deleteBottomLayer(${layer.id})">Delete</button></div></td>
+        </tr>
+      `;
+      previewBottomLayersHTML += `
+        <tr class="bottom-note-row">
+          <td colspan="3" style="text-align: left; padding-left: 8px;">${layer.note}</td>
+          <td>${layer.qty}</td>
+          <td>x</td>
+          <td>${layer.price.toFixed(2)}</td>
+          <td>${layer.total.toFixed(2)}</td>
+        </tr>
+      `;
+    });
+    bottomLayersBody.innerHTML = bottomLayersHTML;
+    previewBottomLayerTable.querySelector('tbody').innerHTML = previewBottomLayersHTML;
+    previewBottomLayerTable.style.display = 'table';
+  } else {
+    bottomLayersBody.innerHTML = '<tr><td colspan="6" class="empty-message">No bottom layers added yet</td></tr>';
+    previewBottomLayerTable.style.display = 'none';
+  }
+}
+
+function clearForm() {
+  quoteItems = [];
+  bottomLayers = [];
+  document.getElementById('qDate').value = '';
+  document.getElementById('qNumber').value = '';
+  document.getElementById('qCustomer').value = '';
+  clearItemInputs();
+  clearBottomLayerInputs();
+  renderItems();
+  renderBottomHalf();
+  document.getElementById('qDate').focus();
+}
+
+function printQuote() {
+  window.print();
+}
+
+function saveAsJpg() {
+  const preview = document.querySelector('.preview-panel');
+  if (!preview) {
+    alert('Preview area not found');
+    return;
+  }
+
+  html2canvas(preview, { backgroundColor: '#f5f1ed' }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = `quotation-${document.getElementById('qNumber').value.trim() || 'quote'}-${Date.now()}.jpg`;
+    link.href = canvas.toDataURL('image/jpeg', 0.95);
+    link.click();
+  }).catch(() => {
+    alert('Unable to export JPG. Please try again.');
+  });
+}
+
+function submitQuote() {
+  const date = document.getElementById('qDate').value;
+  const quoteNo = document.getElementById('qNumber').value.trim();
+  const customer = document.getElementById('qCustomer').value.trim();
+
+  if (!date || !quoteNo || !customer) {
+    alert('Please fill in all quotation details');
+    return;
+  }
+
+  if (quoteItems.length === 0 && bottomLayers.length === 0) {
+    alert('Please add at least one item or bottom layer.');
+    return;
+  }
+
+  const quoteTotal = quoteItems.reduce((sum, item) => sum + item.totalPrice, 0);
+  const bottomTotal = bottomLayers.reduce((sum, layer) => sum + layer.total, 0);
+  const grandTotal = quoteTotal + bottomTotal;
+  
+  const payload = {
+    date: date,
+    quoteNo,
+    customer,
+    items: quoteItems.map((item, idx) => ({
+      no: idx + 1,
+      size: item.size, length: item.length,
+      pcs: item.pcs, totalLength: item.totalLength,
+      price: item.price, totalPrice: item.totalPrice
+    })),
+    bottomLayers: bottomLayers.map((layer, idx) => ({
+      no: idx + 1,
+      note: layer.note, qty: layer.qty,
+      price: layer.price, total: layer.total
+    })),
+    grandTotal,
+    status: 'Submitted'
+  };
+
+  try {
+    const savedQuotes = JSON.parse(localStorage.getItem('timberHubQuotes')) || [];
+    const newQuoteForStorage = {
+      quoteId: 'TH-' + Date.now(),
+      quoteNo: quoteNo,
+      clientName: customer,
+      amount: grandTotal,
+      date: date,
+      status: 'Pending',
+      // Full data for reloading
+      fullQuote: payload
+    };
+    savedQuotes.unshift(newQuoteForStorage);
+    localStorage.setItem('timberHubQuotes', JSON.stringify(savedQuotes.slice(0, 50))); // Increased limit
+  } catch (lsError) {
+    console.error("Could not save to localStorage", lsError);
+  }
+
+  fetch('https://script.google.com/macros/s/AKfycbzFdIcyl2jRHKyf6NShliRvZF6QkCJaf29MfDZSN0woTTVaY7DyaTIp_fHvQVFTWO7UgA/exec', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8', // Required for Google Apps Script to parse the payload
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => response.json())
+  .then(result => {
+    if (result.status === "success") {
+      // The save was successful, now redirect
+      window.location.href = 'index.html#recent';
+    } else {
+      // The backend reported an error
+      alert('⚠ Error saving quotation: ' + result.message);
+    }
+  })
+  .catch(err => {
+    // This catches network errors (like the one you're seeing) or if the server is down
+    alert('⚠ Network or server error: ' + err.message);
+  });
+}
+
+// Update preview when inputs change
+document.getElementById('qDate').addEventListener('change', renderItems);
+document.getElementById('qNumber').addEventListener('input', renderItems);
+document.getElementById('qCustomer').addEventListener('input', renderItems);
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  loadQuoteFromSession();
+  renderItems();
+  renderBottomHalf();
+});
+
+function loadQuoteFromSession() {
+  const quoteDataJSON = sessionStorage.getItem('quoteToLoad');
+  if (quoteDataJSON) {
+    try {
+      const quoteData = JSON.parse(quoteDataJSON);
+      
+      // Populate header
+      document.getElementById('qDate').value = quoteData.date || '';
+      document.getElementById('qNumber').value = quoteData.quoteNo || '';
+      document.getElementById('qCustomer').value = quoteData.customer || '';
+
+      // Populate items and ensure they have unique IDs for the editing UI
+      quoteItems = (quoteData.items || []).map(item => ({ ...item, id: item.id || Date.now() + Math.random() }));
+      bottomLayers = (quoteData.bottomLayers || []).map(layer => ({ ...layer, id: layer.id || Date.now() + Math.random() }));
+
+      // Clear the session storage item so it doesn't load again on refresh
+      sessionStorage.removeItem('quoteToLoad');
+    } catch (e) {
+      console.error('Error loading quote from session storage', e);
+      sessionStorage.removeItem('quoteToLoad');
+    }
+  }
+}
+</script>
+
+</body>
+</html>
