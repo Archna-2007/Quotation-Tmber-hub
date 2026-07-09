@@ -246,14 +246,14 @@
       card.className = `quote-card status-${quote.status.toLowerCase()}`;
       card.dataset.quoteId = quote.quoteId;
 
-      const amountFormatted = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(quote.amount);
+      const amountFormatted = 'Rs. ' + new Intl.NumberFormat('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(quote.amount);
 
       card.innerHTML = `
         <div class="quote-info">
           <span class="quote-customer">${quote.clientName}</span>
           <div class="quote-details">
             <span>#${quote.quoteNo}</span>
-            <span>${quote.date}</span>
+            <span>${quote.date ? new Date(quote.date).toLocaleDateString('en-GB').replace(/\//g, '-') : ''}</span>
             <span>${amountFormatted}</span>
           </div>
         </div>
